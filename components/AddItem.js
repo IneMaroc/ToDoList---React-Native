@@ -28,6 +28,7 @@ const styles = StyleSheet.create ({
         borderBottomColor: "#333", 
         borderBottomWidth: 1,
         width: 200,
+        paddingLeft: 5,
       },
 
 });

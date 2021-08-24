@@ -1,19 +1,25 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, Button, FlatList } from 'react-native';
+import { StyleSheet, View, Alert} from 'react-native';
 import Modal from "./components/Modal";
 import AddItem from './components/AddItem';
+import List from './components/List/List';
 
 export default function App() {
   const [textInput, setTextInput] = useState ("");
   const [itemList, setItemList] = useState([]);
   const [checkItemList, setCheckItemList] = useState([]);
+  
 
   const [itemSelected, setItemSelected] = useState({});
   const [modalVisible, setModalVisible] = useState(false);
 
-  const handleChangeText = (t) => setTextInput(t);
+  const handleChangeText = (t) => setTextInput((t).toLowerCase());
   const handleAddPress = () => {
+
+    let unCheckItems = itemList.find(item => item.value === textInput);
+    let checkItems = checkItemList.find(item => item.value === textInput);
+    if ((unCheckItems && checkItems) === undefined && textInput !== '') {
 
       setItemList([
         ...itemList, {
@@ -22,68 +28,92 @@ export default function App() {
         },
 
       ]);
+
+    } else {
+      Alert.alert('Item repetido o invalido');
+    }
       setTextInput("");
   };
 
-  const handleConfirmDelete = () => {
-    setItemList(itemList.filter(item => item.id !== itemSelected.id));
+  const handleCheckItem = (id, value) => {
+    
+    setItemList(itemList.filter(item => item.id !== id));
     setCheckItemList([
-      ...checkItemList, itemList.find(item => item.id === itemSelected.id),
-      
-    ])
-    setItemSelected({});
-    setModalVisible(false);
+    ...checkItemList, {
+      value : value,
+      id : id,
+    },
+    
+    ]);
+    
 
-  }
-  const handleModalOpen = id => {
-    setItemSelected(itemList.find(item => item.id === id));
+  };
+
+  const handleUnCheckItem = (id, value) => {
+
+    setCheckItemList(checkItemList.filter(item => item.id !== id));
+      setItemList([
+        ...itemList, {
+          id: id,
+          value: value,
+      },
+      ]);
+
+  };
+
+  const handleConfirmDelete = (checkList) => {
+
+    if(checkList) {
+
+      setCheckItemList(checkItemList.filter(item => item.id !== itemSelected.id));
+
+    } else {
+
+      setItemList(itemList.filter(item => item.id !== itemSelected.id));
+    
+    }
+    
+    setModalVisible(false); 
+    setItemSelected({});
+
+  };
+  const handleModalOpen = (id, checkList) => {
+
+    if(checkList) {
+      setItemSelected(checkItemList.find(item => item.id === id)); 
+
+    } else {
+
+      setItemSelected(itemList.find(item => item.id === id));
+      
+    }
     setModalVisible(true);
+    
   }
 
 
   return (
     <View style={styles.container}>
+      
 
-      <AddItem handleChangeText={handleChangeText} handleAddPress={handleAddPress}/>
+      <AddItem handleChangeText={handleChangeText} handleAddPress={handleAddPress} textInput={textInput}/>
 
       <View style={styles.listContainer}>
-        <FlatList
-            data={itemList}
-            keyExtractor={item => item.id}
-            renderItem={(data) => (
 
-              <View style={styles.listValue}>
+        <List items={itemList} handleModalOpen={handleModalOpen} checkList={false} handleCheckItem={handleCheckItem}/>
+          
+      </View>
 
-                <Text>{data.item.value}</Text>
-                <Button title="X" color="pink" onPress={() => {handleModalOpen(data.item.id)}}/>
+      <View style={styles.checkListContainer}>
 
-              </View>
-            )}
+        <List items={checkItemList} handleModalOpen={handleModalOpen} checkList={true} handleUnCheckItem={handleUnCheckItem}/>
+          
+      </View>
 
-        />
-
-        
-        <FlatList
-            data={checkItemList}
-            keyExtractor={item => item.id}
-            renderItem={(data) => (
-
-              <View style={styles.lisChecktValue}>
-
-                <Text>{data.item.value}</Text>
-                <Button title="X" color="pink" onPress={() => {handleModalOpen(data.item.id)}}/>
-
-              </View>
-            )}
-
-        />
-
-        {modalVisible? 
+      {modalVisible? 
           <Modal itemSelected={itemSelected} handleConfirmDelete={handleConfirmDelete}/>
            : <></>
           }
-          
-      </View>
       
     </View>
   );
@@ -92,20 +122,22 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     padding: 30,
-    marginTop: "10%"
-    },
+    marginTop: "10%",
+    justifyContent: 'center',
+  },
     
-    listContainer: {
+  listContainer: {
       marginTop: "10%",
-    },
-    listValue: {
-
-      flexDirection: "row", 
-      justifyContent: "space-between",
-      alignItems: "center",
-      marginTop: 12,
-      paddingLeft: 5,
-      backgroundColor: "#EBEBEB",
-
-    },
+      paddingBottom: '10%',
+      borderBottomColor: '#333',
+      borderBottomWidth: 1,
+      
+  },
+  checkListContainer: {
+    marginTop: "10%",
+    marginBottom: '10%',
+    
+    
+},
+  
 });
