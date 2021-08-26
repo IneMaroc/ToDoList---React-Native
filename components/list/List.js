@@ -9,7 +9,6 @@ const {items, handleModalOpen, checkList, handleCheckItem, handleUnCheckItem} = 
     return (
         <FlatList
             data={items}
-            keyExtractor={item => item.id}
             renderItem={(data) => (
 
               checkList? <ListItem handleModalOpen={handleModalOpen} data={data} checkList={checkList} handleUnCheckItem={handleUnCheckItem}/> : 

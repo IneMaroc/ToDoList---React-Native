@@ -1,9 +1,9 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
-import { StyleSheet, View, Alert} from 'react-native';
+import { StyleSheet, View, Alert, Text} from 'react-native';
 import Modal from "./components/Modal";
 import AddItem from './components/AddItem';
-import List from './components/List/List';
+import List from './components/list/List';
 
 export default function App() {
   const [textInput, setTextInput] = useState ("");
@@ -23,8 +23,9 @@ export default function App() {
 
       setItemList([
         ...itemList, {
-          id: Math.random().toString(),
+          key: Math.random().toString(),
           value: textInput,
+          checkList: false,
         },
 
       ]);
@@ -35,13 +36,14 @@ export default function App() {
       setTextInput("");
   };
 
-  const handleCheckItem = (id, value) => {
+  const handleCheckItem = (key, value) => {
     
-    setItemList(itemList.filter(item => item.id !== id));
+    setItemList(itemList.filter(item => item.key !== key));
     setCheckItemList([
     ...checkItemList, {
+      key : key,
       value : value,
-      id : id,
+      checkList: true,
     },
     
     ]);
@@ -49,13 +51,14 @@ export default function App() {
 
   };
 
-  const handleUnCheckItem = (id, value) => {
+  const handleUnCheckItem = (key, value) => {
 
-    setCheckItemList(checkItemList.filter(item => item.id !== id));
+    setCheckItemList(checkItemList.filter(item => item.key !== key));
       setItemList([
         ...itemList, {
-          id: id,
+          key: key,
           value: value,
+          checkList: false,
       },
       ]);
 
@@ -65,11 +68,11 @@ export default function App() {
 
     if(checkList) {
 
-      setCheckItemList(checkItemList.filter(item => item.id !== itemSelected.id));
+      setCheckItemList(checkItemList.filter(item => item.key !== itemSelected.key));
 
     } else {
 
-      setItemList(itemList.filter(item => item.id !== itemSelected.id));
+      setItemList(itemList.filter(item => item.key !== itemSelected.key));
     
     }
     
@@ -77,14 +80,14 @@ export default function App() {
     setItemSelected({});
 
   };
-  const handleModalOpen = (id, checkList) => {
+  const handleModalOpen = (key, checkList) => {
 
     if(checkList) {
-      setItemSelected(checkItemList.find(item => item.id === id)); 
+      setItemSelected(checkItemList.find(item => item.key === key)); 
 
     } else {
 
-      setItemSelected(itemList.find(item => item.id === id));
+      setItemSelected(itemList.find(item => item.key === key));
       
     }
     setModalVisible(true);
@@ -103,15 +106,19 @@ export default function App() {
         <List items={itemList} handleModalOpen={handleModalOpen} checkList={false} handleCheckItem={handleCheckItem}/>
           
       </View>
+      {checkItemList.length !== 0? 
+      
+        <View style={styles.checkListContainer}>
 
-      <View style={styles.checkListContainer}>
+          <Text>Tareas Completadas</Text>
 
         <List items={checkItemList} handleModalOpen={handleModalOpen} checkList={true} handleUnCheckItem={handleUnCheckItem}/>
-          
-      </View>
+    
+        </View>: null
+      }
 
       {modalVisible? 
-          <Modal itemSelected={itemSelected} handleConfirmDelete={handleConfirmDelete}/>
+          <Modal style={styles.modalContainer} itemSelected={itemSelected} handleConfirmDelete={handleConfirmDelete}/>
            : <></>
           }
       
@@ -128,16 +135,24 @@ const styles = StyleSheet.create({
     
   listContainer: {
       marginTop: "10%",
-      paddingBottom: '10%',
-      borderBottomColor: '#333',
-      borderBottomWidth: 1,
+      paddingBottom: '5%',
+      
       
   },
   checkListContainer: {
     marginTop: "10%",
     marginBottom: '10%',
+    paddingTop: '5%',
+    borderTopColor: '#333',
+    borderTopWidth: 1,
     
     
+},
+modalContainer: {
+
+  height:'30%',
+  width: '80%',
+
 },
   
 });

@@ -2,23 +2,23 @@ import React from 'react';
 import { Modal, View, Text, Button, StyleSheet } from 'react-native';
 
 const ModalItem = (props) => {
-    const {itemSelected, handleConfirmDelete, checkList} = props;
+    const {itemSelected, handleConfirmDelete} = props;
 
     return (
-        <Modal animationType="slide"  style={styles.modal}>
+        <Modal animationType="fade"  style={styles.modal} transparent>
           <View style={styles.modalContent}>
-              <View style={styles.modalMessage}>
-                <Text>
+              <View>
+                <Text style={styles.modalMessage}>
                     ¿Está seguro que quiere borrar?
                 </Text>
               </View>
-              <View style={styles.modalTitle}>
-                <Text> 
+              <View>
+                <Text style={styles.modalTitle}> 
                     {(itemSelected.value).toUpperCase()}
                 </Text>
               </View>
               <View>
-                <Button title="CONFIRMAR" color='pink' onPress={() => {handleConfirmDelete(checkList)}}/>
+                <Button title="CONFIRMAR" color='pink' onPress={() => {handleConfirmDelete(itemSelected.checkList)}}/>
               </View>
           </View>
 
@@ -31,7 +31,10 @@ const styles = StyleSheet.create ({
 
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'space-arround',
+    justifyContent: 'space-around',
+    alignSelf: 'center',
+    height:'30%',
+    width: '80%',
     
 
   }, 
@@ -39,18 +42,21 @@ const styles = StyleSheet.create ({
   modalContent: {
     padding: 20,
     borderRadius: 5,
-    backgroundColor: '#EBEBEB',
+    backgroundColor: '#333',
     alignSelf: 'center',
     alignItems: 'center',
     justifyContent: 'center',
+    marginTop: '50%',
   },
   modalMessage: {
-    fontSize: 18,
+    fontSize: 14,
+    color: 'white',
   },
   modalTitle: {
-    fontSize: 30,
+    fontSize: 20,
     marginTop: 10,
     marginBottom: 20,
+    color: 'white',
   },
   shadow: {
     shadowColor: "#000",

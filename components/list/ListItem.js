@@ -4,26 +4,24 @@ import {View, Text, Button, StyleSheet} from 'react-native';
 const ListItem = (props) => {
     const{data, handleModalOpen, checkList, handleCheckItem, handleUnCheckItem} = props;
 
-    
-
         return (
         <View style={checkList? styles.listChecktValue : styles.listValue}>
-                <Button icon="check" color="#333" onPress={() => {
+                <Button title='ok' color="#333" onPress={() => {
                     if(checkList) {
 
                         
-                        handleUnCheckItem(data.item.id, data.item.value);
+                        handleUnCheckItem(data.item.key, data.item.value);
 
                     } else {
                         
-                        handleCheckItem(data.item.id, data.item.value);
+                        handleCheckItem(data.item.key, data.item.value);
 
                     }
                     
                     
                 }}/>
                 <Text style={checkList? styles.textChecktValue : styles.textValue}>{data.item.value}</Text>
-                <Button title="X" color="pink" onPress={() => {handleModalOpen(data.item.id, checkList)}}/>
+                <Button title="X" color="pink" onPress={() => {handleModalOpen(data.item.key, checkList)}}/>
 
         </View>
     );
@@ -53,7 +51,7 @@ const styles = StyleSheet.create ({
 
     },
     textChecktValue: {
-        color: 'white' ,
+        color: 'pink' ,
     }
 
 });
