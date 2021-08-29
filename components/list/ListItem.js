@@ -39,6 +39,11 @@ const styles = StyleSheet.create ({
         backgroundColor: "#EBEBEB",
   
     },
+    textValue: {
+
+        width: '80%',
+
+    },
     
     listChecktValue: {
         backgroundColor: '#EBEBEB',
@@ -48,10 +53,12 @@ const styles = StyleSheet.create ({
         marginTop: 12,
         paddingLeft: 5,
         
+        
 
     },
     textChecktValue: {
-        color: 'pink' ,
+        width: '80%',
+        textDecorationLine: 'line-through',
     }
 
 });
