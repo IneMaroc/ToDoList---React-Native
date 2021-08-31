@@ -1,12 +1,14 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import {View, Text, Button, StyleSheet} from 'react-native';
+import ToDoListContext from '../../context/ToDoListContext';
 
 const ListItem = (props) => {
-    const{data, handleModalOpen, checkList, handleCheckItem, handleUnCheckItem} = props;
+    const{data, checkList} = props;
+    const {handleCheckItem, handleUnCheckItem, handleModalOpen} = useContext(ToDoListContext);
 
         return (
         <View style={checkList? styles.listChecktValue : styles.listValue}>
-                <Button title='ok' color="#333" onPress={() => {
+                <Button title={checkList? 'OK' : '  '} color="#333" onPress={() => {
                     if(checkList) {
 
                         
@@ -42,6 +44,7 @@ const styles = StyleSheet.create ({
     textValue: {
 
         width: '80%',
+        fontFamily: 'roboto',
 
     },
     
@@ -59,6 +62,7 @@ const styles = StyleSheet.create ({
     textChecktValue: {
         width: '80%',
         textDecorationLine: 'line-through',
+        fontFamily: 'roboto',
     }
 
 });

@@ -4,15 +4,16 @@ import ListItem from './ListItem';
 
 
 const List = (props) => {
-const {items, handleModalOpen, checkList, handleCheckItem, handleUnCheckItem} = props;
+const {items, checkList} = props;
+
 
     return (
         <FlatList
             data={items}
             renderItem={(data) => (
 
-              checkList? <ListItem handleModalOpen={handleModalOpen} data={data} checkList={checkList} handleUnCheckItem={handleUnCheckItem}/> : 
-              <ListItem handleModalOpen={handleModalOpen} data={data} checkList={checkList} handleCheckItem={handleCheckItem}/>
+              checkList? <ListItem  data={data} checkList={checkList}/> : 
+              <ListItem  data={data} checkList={checkList} />
             )}
 
         />

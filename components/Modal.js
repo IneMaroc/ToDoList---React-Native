@@ -1,27 +1,33 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Modal, View, Text, Button, StyleSheet } from 'react-native';
+import ToDoListContext from '../context/ToDoListContext';
+import AddItem from './AddItem';
 
 const ModalItem = (props) => {
-    const {itemSelected, handleConfirmDelete} = props;
+    const {home, navigation} = props;
+    const {itemSelected, handleConfirmDelete} = useContext(ToDoListContext);
 
     return (
-        <Modal animationType="fade"  style={styles.modal} transparent>
-          <View style={styles.modalContent}>
-              <View>
-                <Text style={styles.modalMessage}>
-                    ¿Está seguro que quiere borrar?
-                </Text>
-              </View>
-              <View>
-                <Text style={styles.modalTitle}> 
-                    {(itemSelected.value).toUpperCase()}
-                </Text>
-              </View>
-              <View>
-                <Button title="CONFIRMAR" color='pink' onPress={() => {handleConfirmDelete(itemSelected.checkList)}}/>
-              </View>
-          </View>
 
+              
+        <Modal animationType="fade"  style={styles.modal} transparent>
+          {home? <AddItem home={home} style={styles.modalContent} navigation={navigation}/> :
+          <View style={styles.modalContent}>
+            <View>
+              <Text style={styles.modalMessage}>
+                  ¿Está seguro que quiere borrar?
+              </Text>
+            </View>
+            <View>
+              <Text style={styles.modalTitle}> 
+                  {(itemSelected.value).toUpperCase()}
+              </Text>
+            </View>
+            <View>
+              <Button title="CONFIRMAR" color='pink' onPress={() => {handleConfirmDelete(itemSelected.checkList)}}/>
+            </View>
+          </View>
+       }
         </Modal>
     );
 }

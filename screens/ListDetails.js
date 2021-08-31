@@ -1,109 +1,24 @@
-import React, { useState } from 'react';
-import { StyleSheet, View, Alert, Text, Keyboard} from 'react-native';
+import React, { useContext} from 'react';
+import { StyleSheet, View, Text, TouchableOpacity} from 'react-native';
 import Modal from "../components/Modal";
 import AddItem from '../components/AddItem';
 import List from '../components/list/List';
+import ToDoListContext from '../context/ToDoListContext';
 
 export default function ListDetails() {
-  const [textInput, setTextInput] = useState ("");
-  const [itemList, setItemList] = useState([]);
-  const [checkItemList, setCheckItemList] = useState([]);
-  
 
-  const [itemSelected, setItemSelected] = useState({});
-  const [modalVisible, setModalVisible] = useState(false);
-
-  const handleChangeText = (t) => setTextInput((t).toLowerCase());
-  const handleAddPress = () => {
-
-    let unCheckItems = itemList.find(item => item.value === textInput);
-    let checkItems = checkItemList.find(item => item.value === textInput);
-    if ((unCheckItems && checkItems) === undefined && textInput !== '') {
-
-      setItemList([
-        ...itemList, {
-          key: Math.random().toString(),
-          value: textInput,
-          checkList: false,
-        },
-
-      ]);
-
-    } else {
-      Alert.alert('Item repetido o invalido');
-    }
-      setTextInput("");
-      Keyboard.dismiss()
-  };
-
-  const handleCheckItem = (key, value) => {
-    
-    setItemList(itemList.filter(item => item.key !== key));
-    setCheckItemList([
-    ...checkItemList, {
-      key : key,
-      value : value,
-      checkList: true,
-    },
-    
-    ]);
-    
-
-  };
-
-  const handleUnCheckItem = (key, value) => {
-
-    setCheckItemList(checkItemList.filter(item => item.key !== key));
-      setItemList([
-        ...itemList, {
-          key: key,
-          value: value,
-          checkList: false,
-      },
-      ]);
-
-  };
-
-  const handleConfirmDelete = (checkList) => {
-
-    if(checkList) {
-
-      setCheckItemList(checkItemList.filter(item => item.key !== itemSelected.key));
-
-    } else {
-
-      setItemList(itemList.filter(item => item.key !== itemSelected.key));
-    
-    }
-    
-    setModalVisible(false); 
-    setItemSelected({});
-
-  };
-  const handleModalOpen = (key, checkList) => {
-
-    if(checkList) {
-      setItemSelected(checkItemList.find(item => item.key === key)); 
-
-    } else {
-
-      setItemSelected(itemList.find(item => item.key === key));
-      
-    }
-    setModalVisible(true);
-    
-  }
+  const {itemList, checkItemList, modalVisible, titleInput} = useContext(ToDoListContext);
 
 
   return (
     <View style={styles.container}>
       
 
-      <AddItem handleChangeText={handleChangeText} handleAddPress={handleAddPress} textInput={textInput}/>
+      <AddItem  home={false}/>
 
       <View style={styles.listContainer}>
 
-        <List items={itemList} handleModalOpen={handleModalOpen} checkList={false} handleCheckItem={handleCheckItem}/>
+        <List items={itemList}  checkList={false} />
           
       </View>
       {checkItemList.length !== 0? 
@@ -112,13 +27,20 @@ export default function ListDetails() {
 
           <Text>Tareas Completadas</Text>
 
-        <List items={checkItemList} handleModalOpen={handleModalOpen} checkList={true} handleUnCheckItem={handleUnCheckItem}/>
+        <List items={checkItemList}  checkList={true} />
     
         </View>: null
       }
 
+      <TouchableOpacity
+        style={styles.touchable}
+        
+      >
+        <Text style={styles.touchableText} >GUARDAR LISTA</Text>
+      </TouchableOpacity>
+
       {modalVisible? 
-          <Modal style={styles.modalContainer} itemSelected={itemSelected} handleConfirmDelete={handleConfirmDelete}/>
+          <Modal style={styles.modalContainer} home={false}/>
            : <></>
           }
       
@@ -131,22 +53,23 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
     padding: 30,
-    marginTop: "10%",
-    justifyContent: 'flex-start',
+    marginTop: "1%",
+    justifyContent: 'space-between',
   },
     
   listContainer: {
-      marginTop: "10%",
+      height: 'auto',
+      marginTop: "5%",
       paddingBottom: '5%',
-      
-      
+           
   },
   checkListContainer: {
+    height: 'auto',
     marginTop: "10%",
     marginBottom: '10%',
     paddingTop: '5%',
     borderTopColor: '#333',
-    borderTopWidth: 1,
+    borderTopWidth: 1, 
     
     
 },
@@ -156,5 +79,18 @@ modalContainer: {
   width: '80%',
 
 },
+touchable: {
+
+  backgroundColor: 'pink',
+  padding: 5,
+
+  
+},
+touchableText: {
+  fontFamily: 'roboto-bold',
+  textAlign: 'center',
+  color: 'white',
+  
+}
   
 });
