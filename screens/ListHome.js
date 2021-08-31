@@ -7,11 +7,11 @@ import List from '../components/list/List';
 
 export default function ListHome ({navigation}) {
 
-    const {modalVisible, setModalVisible, list} = useContext(ToDoListContext);
+    const {modalVisible, setModalVisible, taskList} = useContext(ToDoListContext);
     return (
         <View style={styles.container}>
 
-            <List items={list} home={true} />
+            <List items={taskList} home={true} />
 
             <Button title="+" color="pink" onPress={() => setModalVisible(true)}/>
 
@@ -27,10 +27,10 @@ export default function ListHome ({navigation}) {
 const styles = StyleSheet.create({
     container: {
       width: '100%',
-      height: '100%',
+      height: '80%',
       padding: 30,
       marginTop: "10%",
-      justifyContent: 'flex-start',
+      justifyContent: 'space-between',
     },
       
     listContainer: {

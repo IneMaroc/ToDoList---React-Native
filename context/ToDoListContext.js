@@ -11,7 +11,7 @@ export const ToDoListComponentContext = ({children}) => {
     const [textInput, setTextInput] = useState ('');
     const [itemList, setItemList] = useState([]);
     const [checkItemList, setCheckItemList] = useState([]);
-    const [list, setList] = useState([]);
+    const [taskList, setTaskList] = useState([]);
     const [itemSelected, setItemSelected] = useState({});
     const [modalVisible, setModalVisible] = useState(false);
     const [titleInput, setTitleInput] = useState('');
@@ -36,9 +36,9 @@ export const ToDoListComponentContext = ({children}) => {
     const handleAddPress = (home) => {
       
       if (home) {
-        let titInput = list.find(item => item.value === textInput);
+        let titInput = taskList.find(item => item.value === textInput);
         if (titInput === undefined && textInput !== '') {
-          setTitleInput(titInput);
+          setTitleInput(textInput);
           setModalVisible(false);
         } else {
           Alert.alert('La lista ya existe o es invalida');
@@ -99,14 +99,13 @@ export const ToDoListComponentContext = ({children}) => {
 
     const handleSafeList = () => {
 
-      setList([
+      setTaskList([
 
-        ...list, {
+        ...taskList, {
           itemList: itemList,
           checkItemList: checkItemList,
           value: titleInput,
           key: Math.random().toString(),
-          home: true,
 
         }
 
@@ -145,7 +144,7 @@ export const ToDoListComponentContext = ({children}) => {
     itemSelected, setItemSelected,
     modalVisible, setModalVisible,
     titleInput, setTitleInput,
-    list, setList,
+    taskList, setTaskList,
     handleModalOpen,
     handleConfirmDelete,
     handleUnCheckItem,
