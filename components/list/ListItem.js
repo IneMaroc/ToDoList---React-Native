@@ -1,29 +1,42 @@
 import React, { useContext } from 'react';
-import {View, Text, Button, StyleSheet} from 'react-native';
+import {View, Text, Button, TouchableOpacity, StyleSheet} from 'react-native';
 import ToDoListContext from '../../context/ToDoListContext';
 
 const ListItem = (props) => {
-    const{data, checkList} = props;
+    const{data, checkList, home} = props;
     const {handleCheckItem, handleUnCheckItem, handleModalOpen} = useContext(ToDoListContext);
 
         return (
-        <View style={checkList? styles.listChecktValue : styles.listValue}>
-                <Button title={checkList? 'OK' : '  '} color="#333" onPress={() => {
-                    if(checkList) {
+        <View >
+                {home? 
 
+                <TouchableOpacity><Text>{data.item.value}</Text></TouchableOpacity>
+                
+                : 
+
+                <View style={checkList? styles.listChecktValue : styles.listValue}>
+                    <Button title={checkList? 'OK' : '  '} color="#333" onPress={() => {
+                        if(checkList) {
+
+                            
+                            handleUnCheckItem(data.item.key, data.item.value);
+
+                        } else {
+                            
+                            handleCheckItem(data.item.key, data.item.value);
+
+                        }
                         
-                        handleUnCheckItem(data.item.key, data.item.value);
-
-                    } else {
                         
-                        handleCheckItem(data.item.key, data.item.value);
+                    }}/>
+                    <Text style={checkList? styles.textChecktValue : styles.textValue}>{data.item.value}</Text>
+                    <Button title="X" color="pink" onPress={() => {handleModalOpen(data.item.key, checkList)}}/>
+                </View>
+                
+                }
+                
 
-                    }
-                    
-                    
-                }}/>
-                <Text style={checkList? styles.textChecktValue : styles.textValue}>{data.item.value}</Text>
-                <Button title="X" color="pink" onPress={() => {handleModalOpen(data.item.key, checkList)}}/>
+                
 
         </View>
     );

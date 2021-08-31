@@ -5,9 +5,10 @@ import AddItem from '../components/AddItem';
 import List from '../components/list/List';
 import ToDoListContext from '../context/ToDoListContext';
 
-export default function ListDetails() {
+export default function ListDetails(props) {
 
-  const {itemList, checkItemList, modalVisible, titleInput} = useContext(ToDoListContext);
+  const {itemList, checkItemList, modalVisible, handleSafeList} = useContext(ToDoListContext);
+  const {navigation} = props;
 
 
   return (
@@ -34,8 +35,13 @@ export default function ListDetails() {
 
       <TouchableOpacity
         style={styles.touchable}
+        onPress={() => {
+          handleSafeList();
+          navigation.navigate('Home');
         
-      >
+        
+        }}>
+      
         <Text style={styles.touchableText} >GUARDAR LISTA</Text>
       </TouchableOpacity>
 

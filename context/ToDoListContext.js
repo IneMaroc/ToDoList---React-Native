@@ -1,5 +1,6 @@
 import React, { createContext, useState } from 'react';
 import { Alert, Keyboard} from 'react-native';
+import List from '../components/list/List';
 
 const ToDoListContext = createContext();
 
@@ -16,11 +17,27 @@ export const ToDoListComponentContext = ({children}) => {
     const [titleInput, setTitleInput] = useState('');
   
     const handleChangeText = (t) => setTextInput((t).toLowerCase());
+
+    const handleModalOpen = (key, checkList) => {
+  
+      if(checkList) {
+        setItemSelected(checkItemList.find(item => item.key === key)); 
+  
+      } else {
+  
+        setItemSelected(itemList.find(item => item.key === key));
+        
+      }
+      setModalVisible(true);
+      
+    }
+
+
     const handleAddPress = (home) => {
       
       if (home) {
         let titInput = list.find(item => item.value === textInput);
-        if(titInput === undefined && titInput !== '') {
+        if (titInput === undefined && textInput !== '') {
           setTitleInput(titInput);
           setModalVisible(false);
         } else {
@@ -79,6 +96,28 @@ export const ToDoListComponentContext = ({children}) => {
         ]);
   
     };
+
+    const handleSafeList = () => {
+
+      setList([
+
+        ...list, {
+          itemList: itemList,
+          checkItemList: checkItemList,
+          value: titleInput,
+          key: Math.random().toString(),
+          home: true,
+
+        }
+
+      ]);
+
+      setTitleInput('');
+      setItemList([]);
+      setCheckItemList([]);
+
+    }
+
   
     const handleConfirmDelete = (checkList) => {
   
@@ -96,19 +135,7 @@ export const ToDoListComponentContext = ({children}) => {
       setItemSelected({});
   
     };
-    const handleModalOpen = (key, checkList) => {
-  
-      if(checkList) {
-        setItemSelected(checkItemList.find(item => item.key === key)); 
-  
-      } else {
-  
-        setItemSelected(itemList.find(item => item.key === key));
-        
-      }
-      setModalVisible(true);
-      
-    }
+    
   
     
     
@@ -124,6 +151,7 @@ export const ToDoListComponentContext = ({children}) => {
     handleUnCheckItem,
     handleCheckItem,
     handleAddPress,
-    handleChangeText
+    handleChangeText,
+    handleSafeList
      }}>{children}</ToDoListContext.Provider>
 };

@@ -2,13 +2,16 @@ import React, { useContext } from 'react';
 import { View, StyleSheet, Button } from "react-native";
 import Modal from "../components/Modal";
 import ToDoListContext from '../context/ToDoListContext';
+import List from '../components/list/List';
 
 
 export default function ListHome ({navigation}) {
 
-    const {modalVisible, setModalVisible} = useContext(ToDoListContext);
+    const {modalVisible, setModalVisible, list} = useContext(ToDoListContext);
     return (
         <View style={styles.container}>
+
+            <List items={list} home={true} />
 
             <Button title="+" color="pink" onPress={() => setModalVisible(true)}/>
 
