@@ -20,7 +20,10 @@ const AddItem = (props) => {
               />
               <Button title="Nueva Lista" color="pink" onPress={() => {
                 handleAddPress(home);
-                navigation.navigate('Details');
+                navigation.navigate('Details', {
+                  categoryKey: Math.random().toString(),
+                  name: textInput,
+                });
               
               
               }}/>

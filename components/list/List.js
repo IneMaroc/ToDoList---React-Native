@@ -4,7 +4,7 @@ import ListItem from './ListItem';
 
 
 const List = (props) => {
-const {items, checkList, home} = props;
+const {items, checkList, home, navigation} = props;
 
 
     return (
@@ -12,7 +12,7 @@ const {items, checkList, home} = props;
             data={items}
             renderItem={(data) => (
 
-              home? <ListItem  data={data} home={home}/> : 
+              home? <ListItem  data={data} home={home} navigation={navigation}/> : 
               <ListItem  data={data} checkList={checkList} />
             )}
 

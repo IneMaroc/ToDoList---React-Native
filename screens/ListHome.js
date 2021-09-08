@@ -11,9 +11,11 @@ export default function ListHome ({navigation}) {
     return (
         <View style={styles.container}>
 
-            <List items={taskList} home={true} />
+            <List items={taskList} home={true} navigation={navigation} />
 
-            <Button title="+" color="pink" onPress={() => setModalVisible(true)}/>
+            <View style={styles.homeButton}> 
+                <Button title="+" color="pink" onPress={() => setModalVisible(true)}/>
+            </View>
 
             {modalVisible? 
             <Modal style={styles.modalContainer} home={true} navigation={navigation}/>
@@ -38,6 +40,12 @@ const styles = StyleSheet.create({
         paddingBottom: '5%',
         
         
+    },
+
+    homeButton: {
+
+        marginVertical: 'auto',
+
     },
  
     modalContainer: {

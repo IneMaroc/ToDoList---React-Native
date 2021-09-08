@@ -3,14 +3,24 @@ import {View, Text, Button, TouchableOpacity, StyleSheet} from 'react-native';
 import ToDoListContext from '../../context/ToDoListContext';
 
 const ListItem = (props) => {
-    const{data, checkList, home} = props;
+    const{data, checkList, home, navigation} = props;
     const {handleCheckItem, handleUnCheckItem, handleModalOpen} = useContext(ToDoListContext);
 
         return (
         <View >
                 {home? 
 
-                <TouchableOpacity><Text>{data.item.value}</Text></TouchableOpacity>
+                <TouchableOpacity onPress={() => {
+                    
+                    navigation.navigate('Details', {
+                      categoryKey: data.item.key,
+                      name: data.item.value,
+                    });
+
+                    return data, home
+                  
+                  
+                  }}><Text>{data.item.value}</Text></TouchableOpacity>
                 
                 : 
 

@@ -7,8 +7,8 @@ import ToDoListContext from '../context/ToDoListContext';
 
 export default function ListDetails(props) {
 
-  const {itemList, checkItemList, modalVisible, handleSafeList} = useContext(ToDoListContext);
-  const {navigation} = props;
+  const {taskList, itemList, checkItemList, modalVisible, handleSaveList} = useContext(ToDoListContext);
+  const {home, navigation} = props;
 
 
   return (
@@ -28,7 +28,7 @@ export default function ListDetails(props) {
 
           <Text>Tareas Completadas</Text>
 
-        <List items={checkItemList}  checkList={true} />
+          <List items={checkItemList}  checkList={true} />
     
         </View>: null
       }
@@ -36,7 +36,7 @@ export default function ListDetails(props) {
       <TouchableOpacity
         style={styles.touchable}
         onPress={() => {
-          handleSafeList();
+          handleSaveList();
           navigation.navigate('Home');
         
         
@@ -60,17 +60,17 @@ const styles = StyleSheet.create({
     height: '100%',
     padding: 30,
     marginTop: "1%",
-    justifyContent: 'space-between',
+    justifyContent: 'flex-start',
   },
     
   listContainer: {
-      height: 'auto',
+      height: '45%',
       marginTop: "5%",
       paddingBottom: '5%',
            
   },
   checkListContainer: {
-    height: 'auto',
+    height: '45%',
     marginTop: "10%",
     marginBottom: '10%',
     paddingTop: '5%',
@@ -87,9 +87,13 @@ modalContainer: {
 },
 touchable: {
 
+  flex: 0.1,
   backgroundColor: 'pink',
   padding: 5,
-
+  position: 'absolute', 
+  left: 0, 
+  right: 0, 
+  bottom: 0
   
 },
 touchableText: {

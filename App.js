@@ -15,7 +15,7 @@ export default function App() {
   if (!dataLoaded) {
     return <AppLoading />
   }
-
+ 
   return (
 
     <ToDoListComponentContext>
@@ -31,8 +31,7 @@ export default function App() {
 
 const styles = StyleSheet.create({
   container: {
-    width: '100%',
-    height: '100%',
+    flex: 1,
     padding: 30,
     marginTop: "10%",
     justifyContent: 'center',

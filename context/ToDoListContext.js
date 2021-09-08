@@ -1,6 +1,6 @@
 import React, { createContext, useState } from 'react';
 import { Alert, Keyboard} from 'react-native';
-import List from '../components/list/List';
+
 
 const ToDoListContext = createContext();
 
@@ -97,7 +97,7 @@ export const ToDoListComponentContext = ({children}) => {
   
     };
 
-    const handleSafeList = () => {
+    const handleSaveList = () => {
 
       setTaskList([
 
@@ -151,6 +151,6 @@ export const ToDoListComponentContext = ({children}) => {
     handleCheckItem,
     handleAddPress,
     handleChangeText,
-    handleSafeList
+    handleSaveList
      }}>{children}</ToDoListContext.Provider>
 };
